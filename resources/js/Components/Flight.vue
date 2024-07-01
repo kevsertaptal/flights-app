@@ -10,12 +10,33 @@ import {
 import DatePicker from "@/Components/DatePicker.vue";
 import PassengerPicker from "@/Components/Flight/PassengerPicker.vue";
 import {Button} from "@/Components/ui/button";
+import {Label} from "radix-vue";
+import {ref} from "vue";
+
+const flightType = ref('oneWay')
 </script>
 <template>
     <div class="flex flex-col gap-2">
         <div class=" flex items-center gap-2 p-4 pb-0">
-            <input type="radio">Tek Yon
-            <input type="radio">Gidiş Dönüş
+            <input
+                id="oneWay"
+                name="flightType"
+                class="checked:bg-[#2dc44d] checked:hover:bg-[#2dc44d] checked:active:bg-[#2dc44d] checked:focus:bg-[#2dc44d] focus:bg-[#2dc44d] focus:outline-none focus:ring-1 focus:ring-[#2dc44d]"
+                type="radio"
+                :checked="flightType === 'oneWay'"
+                @click="flightType = 'oneWay'"
+            >
+            <label for="oneWay" class=" cursor-pointer">Tek Yön</label>
+            <input
+                id="twoWay"
+                name="flightType"
+                class="checked:bg-[#2dc44d] checked:hover:bg-[#2dc44d] checked:active:bg-[#2dc44d] checked:focus:bg-[#2dc44d] focus:bg-[#2dc44d] focus:outline-none focus:ring-1 focus:ring-[#2dc44d]"
+                type="radio"
+                :checked="flightType === 'twoWay'"
+                @click="flightType = 'twoWay'"
+            >
+            <label for="twoWay" class=" cursor-pointer">Gidis Donus</label>
+
         </div>
         <div class="">
             <div class="flex p-4 pt-0 gap-2">
@@ -72,6 +93,7 @@ import {Button} from "@/Components/ui/button";
                     </SelectContent>
                 </Select>
                 <DatePicker/>
+                <DatePicker v-if="flightType === 'twoWay'"/>
 
                 <PassengerPicker/>
 

@@ -40,7 +40,7 @@ const decrement = (key: 'adult' | 'baby' | 'child') => {
                         </button>
                         <span>{{ passengerCounts.adult }}</span>
                         <button
-                            class="bg-[#2dc44d] text-white rounded-full"
+                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
                             @click="passengerCounts.adult++">+
                         </button>
                     </div>
@@ -51,7 +51,7 @@ const decrement = (key: 'adult' | 'baby' | 'child') => {
                         <button @click="decrement('child')">-</button>
                         <span>{{ passengerCounts.child }}</span>
                         <button
-                            class="bg-[#2dc44d] text-white rounded-full"
+                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
                             @click="passengerCounts.child++">+
                         </button>
                     </div>
@@ -59,10 +59,13 @@ const decrement = (key: 'adult' | 'baby' | 'child') => {
                 <div class="flex items-center justify-between gap-2">
                     <span>Bebek (0-2 yas arasi) </span>
                     <div class="flex items-center gap-1">
-                        <button @click="decrement('baby')">-</button>
+                        <button
+
+                            @click="decrement('baby')">-
+                        </button>
                         <span>{{ passengerCounts.baby }}</span>
                         <button
-                            class="bg-[#2dc44d] text-white rounded-full"
+                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
                             @click="passengerCounts.baby++">+
                         </button>
                     </div>
