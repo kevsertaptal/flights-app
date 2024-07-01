@@ -1,16 +1,17 @@
-import { createApp } from "vue";
-import { createStore } from "vuex";
+import {createApp} from "vue";
+import {createStore} from "vuex";
 
 // Create a new store instance.
 const store = createStore({
     state() {
         return {
-            count: 0,
+            activeTab: "flight"
+
         };
     },
     mutations: {
-        increment(state) {
-            state.count++;
+        setActiveTab(state, tab) {
+            state.activeTab = tab;
         },
     },
 });

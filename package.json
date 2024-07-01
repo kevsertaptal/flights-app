@@ -20,6 +20,13 @@
         "vue-tsc": "^1.8.27"
     },
     "dependencies": {
+        "@radix-icons/vue": "^1.0.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "lucide-vue-next": "^0.399.0",
+        "radix-vue": "^1.8.5",
+        "tailwind-merge": "^2.3.0",
+        "tailwindcss-animate": "^1.0.7",
         "vuex": "^4.0.2"
     }
 }
