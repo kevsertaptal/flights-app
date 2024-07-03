@@ -33,4 +33,7 @@
                 class="ccustom" fill="#001A49"></path>
         </svg>
     </div>
+
 </template>
+<script setup lang="ts">
+</script>

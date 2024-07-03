@@ -11,9 +11,38 @@ import DatePicker from "@/Components/DatePicker.vue";
 import PassengerPicker from "@/Components/Flight/PassengerPicker.vue";
 import {Button} from "@/Components/ui/button";
 import {Label} from "radix-vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {DateValue} from "@internationalized/date";
+import {useStore} from "vuex";
+import {router} from "@inertiajs/vue3";
 
 const flightType = ref('oneWay')
+const adultPassengerCount = ref(1)
+const childPassengerCount = ref(0)
+const babyPassengerCount = ref(0)
+const departureDate = ref<DateValue>()
+const returnDate = ref<DateValue>()
+const departureCity = ref('')
+const arrivalCity = ref('')
+
+const totalPassengerCount = computed(() => adultPassengerCount.value + childPassengerCount.value + babyPassengerCount.value)
+
+function handleSubmit() {
+    const searchParams = {
+        resultType: 'flight',
+        flightType: flightType.value,
+        adultPassengerCount: adultPassengerCount.value,
+        childPassengerCount: childPassengerCount.value,
+        babyPassengerCount: babyPassengerCount.value,
+        departureDate: departureDate.value?.toString(),
+        returnDate: returnDate.value?.toString(),
+        departureCity: departureCity.value,
+        arrivalCity: arrivalCity.value,
+    }
+
+    router.get('/', searchParams)
+}
+
 </script>
 <template>
     <div class="flex flex-col gap-2">
@@ -35,69 +64,74 @@ const flightType = ref('oneWay')
                 :checked="flightType === 'twoWay'"
                 @click="flightType = 'twoWay'"
             >
-            <label for="twoWay" class=" cursor-pointer">Gidis Donus</label>
+            <label for="twoWay" class=" cursor-pointer">Gidiş-Dönüş</label>
 
         </div>
         <div class="">
-            <div class="flex p-4 pt-0 gap-2">
-                <Select>
-                    <SelectTrigger>
+            <div class="flex flex-col lg:flex-row p-4 pt-0 gap-2">
+                <Select v-model="departureCity">
+                    <SelectTrigger class="text-lg">
                         <i class="fa-solid fa-crosshairs"></i>
-                        <SelectValue placeholder="Nereden"/>
+                        <SelectValue placeholder="Nereden "/>
                     </SelectTrigger>
                     <SelectContent side="top">
                         <SelectGroup class="w-full">
-                            <SelectItem class="flex items-center gap-2 " value="istanbul">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                            <SelectItem class="flex items-center gap-2 " value="İstanbul">
+                                <i class="fa-solid fa-plane-departure mr-2"></i>
                                 <span> İstanbul Türkiye</span>
                             </SelectItem>
-                            <SelectItem class="flex  items-center gap-2" value="ankara">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                            <SelectItem class="flex  items-center gap-2" value="Ankara">
+                                <i class="fa-solid fa-plane-departure mr-2"></i>
                                 <span>Ankara</span>
                             </SelectItem>
-                            <SelectItem class="flex items-center gap-2 " value="izmir">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                            <SelectItem class="flex items-center gap-2 " value="İzmir">
+                                <i class="fa-solid fa-plane-departure mr-2"></i>
                                 <span>İzmir</span>
                             </SelectItem>
-                            <SelectItem class="flex items-center gap-2 " value="antalya">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                            <SelectItem class="flex items-center gap-2 " value="Antalya">
+                                <i class="fa-solid fa-plane-departure mr-2"></i>
                                 <span>Antalya</span>
                             </SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                <Select>
-                    <SelectTrigger>
+                <Select v-model="arrivalCity">
+                    <SelectTrigger class="text-lg flex ">
                         <i class="fa-solid fa-location-dot"></i>
                         <SelectValue placeholder="Nereye"/>
                     </SelectTrigger>
                     <SelectContent side="top">
                         <SelectGroup class="w-full">
                             <SelectItem class="flex items-center gap-2 " value="istanbul">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                                <i class="fa-solid fa-plane-arrival mr-2"></i>
                                 <span> İstanbul Türkiye</span>
                             </SelectItem>
                             <SelectItem class="flex  items-center gap-2" value="ankara">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                                <i class="fa-solid fa-plane-arrival mr-2"></i>
                                 <span>Ankara</span>
                             </SelectItem>
                             <SelectItem class="flex items-center gap-2 " value="izmir">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                                <i class="fa-solid fa-plane-arrival mr-2"></i>
                                 <span>İzmir</span>
                             </SelectItem>
                             <SelectItem class="flex items-center gap-2 " value="antalya">
-                                <i class="fa-solid fa-plane mr-2"></i>
+                                <i class="fa-solid fa-plane-arrival mr-2"></i>
                                 <span>Antalya</span>
                             </SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
-                <DatePicker/>
-                <DatePicker v-if="flightType === 'twoWay'"/>
+                <DatePicker v-model="departureDate" placeholder="Gidiş Tarihi"/>
+                <DatePicker v-model="returnDate" placeholder="Dönüş Tarihi" v-if="flightType === 'twoWay'"/>
 
-                <PassengerPicker/>
+                <PassengerPicker
+                    v-model:adult="adultPassengerCount"
+                    v-model:child="childPassengerCount"
+                    v-model:baby="babyPassengerCount"
+                    placeholder="Yolcu Sayısı"/>
 
-                <Button size="default" class="bg-[#2dc44d] text-white flex items-center justify-center gap-2">Uçak
+                <Button @click="handleSubmit" size="default"
+                        class="bg-[#2dc44d] text-white flex items-center justify-center gap-2">Uçak
                     Bileti Ara
                     <i
                         class="fa-solid fa-angle-right"></i>

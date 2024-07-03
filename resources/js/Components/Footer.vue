@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
-import FooterContact from "@/Components/Footer/FooterContact.vue";
-import FooterInfo from "@/Components/Footer/FooterInfo.vue";
+
+import FooterCopyrightSection from "@/Components/Footer/FooterCopyrightSection.vue";
+import FooterContentSection from "@/Components/Footer/FooterContentSection.vue";
 </script>
 
 <template>
-    <div class="flex justify-center ">
-        <FooterContact/>
-        <FooterInfo/>
+    <div class="flex flex-col w-full ">
+        <FooterContentSection/>
+        <FooterCopyrightSection/>
     </div>
 </template>

@@ -5,14 +5,13 @@ import {createStore} from "vuex";
 const store = createStore({
     state() {
         return {
-            activeTab: "flight"
-
+            activeTab: "flight",
         };
     },
     mutations: {
         setActiveTab(state, tab) {
             state.activeTab = tab;
-        },
+        }
     },
 });
 

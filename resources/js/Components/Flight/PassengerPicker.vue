@@ -5,69 +5,86 @@ import {
     PopoverTrigger,
 } from '@/Components/ui/popover'
 import {Button} from '@/Components/ui/button'
-import {reactive} from "vue";
 
-const passengerCounts = reactive({
-    adult: 1,
-    child: 0,
-    baby: 0
-})
+const props = defineProps<{
+    placeholder: string
+}>()
 
-const decrement = (key: 'adult' | 'baby' | 'child') => {
-    if (passengerCounts[key] === 0) return
-    if (passengerCounts[key] < 0) return passengerCounts[key] = 0
-    if (key === 'adult' && passengerCounts[key] === 1) return
+const adult = defineModel<number>('adult')
+const child = defineModel<number>('child')
+const baby = defineModel<number>('baby')
 
-    passengerCounts[key]--
-}
 </script>
 <template>
     <Popover>
         <PopoverTrigger as-child>
 
-            <Button variant="outline" class="flex items-center justify-center gap-2"><i class="fa-solid fa-users"></i>Yolcu
-                Sayisi
+            <Button variant="outline" class="flex items-center justify-center gap-2"><i
+                class="fa-solid fa-users"></i>
+                {{ placeholder }}
             </Button>
         </PopoverTrigger>
         <PopoverContent side="top" class="w-auto p-0">
             <div class="flex flex-col  gap-2 p-4 bg-white rounded-lg shadow-lg">
-                <div class="flex items-center justify-between ">
+                <div v-if="adult !== undefined" class="flex items-center justify-between ">
                     <span>Yetişkin</span>
                     <div class="flex items-center gap-1">
-                        <button
-                            :class="passengerCounts.adult === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-black'"
-                            @click="decrement('adult')">-
-                        </button>
-                        <span>{{ passengerCounts.adult }}</span>
-                        <button
-                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
-                            @click="passengerCounts.adult++">+
-                        </button>
+                        <Button
+                            class="rounded-full p-0"
+                            variant="outline"
+                            size="icon"
+                            :class="adult === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-black'"
+                            @click="adult--">
+                            <i class="fa fa-minus"></i>
+                        </Button>
+                        <span>{{ adult }}</span>
+                        <Button
+                            class="bg-[#2dc44d] text-white rounded-full"
+                            size="icon"
+                            variant="outline"
+                            @click="adult++">
+                            <i class="fa fa-plus"></i>
+                        </Button>
                     </div>
                 </div>
-                <div class="flex items-center justify-between gap-2">
-                    <span>Çocuk  (2-12 yas arasi)</span>
+                <div v-if="child !== undefined" class="flex items-center justify-between gap-2">
+                    <span>Çocuk  (2-12 yaş arası)</span>
                     <div class="flex items-center gap-1">
-                        <button @click="decrement('child')">-</button>
-                        <span>{{ passengerCounts.child }}</span>
-                        <button
-                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
-                            @click="passengerCounts.child++">+
-                        </button>
+                        <Button
+                            class="rounded-full p-0"
+                            variant="outline"
+                            size="icon"
+                            @click="child--">
+                            <i class="fa fa-minus"></i>
+                        </Button>
+                        <span>{{ child }}</span>
+                        <Button
+                            class="bg-[#2dc44d] text-white rounded-full"
+                            size="icon"
+                            variant="outline"
+                            @click="child++">
+                            <i class="fa fa-plus"></i>
+                        </Button>
                     </div>
                 </div>
-                <div class="flex items-center justify-between gap-2">
-                    <span>Bebek (0-2 yas arasi) </span>
+                <div v-if="baby !== undefined" class="flex items-center justify-between gap-2">
+                    <span>Bebek (0-2 yaş arası) </span>
                     <div class="flex items-center gap-1">
-                        <button
-
-                            @click="decrement('baby')">-
-                        </button>
-                        <span>{{ passengerCounts.baby }}</span>
-                        <button
-                            class="bg-[#2dc44d] text-white rounded-full px-0.5"
-                            @click="passengerCounts.baby++">+
-                        </button>
+                        <Button
+                            class="rounded-full p-0"
+                            variant="outline"
+                            size="icon"
+                            @click="baby--">
+                            <i class="fa fa-minus"></i>
+                        </Button>
+                        <span>{{ baby }}</span>
+                        <Button
+                            class="bg-[#2dc44d] text-white rounded-full"
+                            size="icon"
+                            variant="outline"
+                            @click="baby++">
+                            <i class="fa fa-plus"></i>
+                        </Button>
                     </div>
                 </div>
             </div>
